@@ -30,18 +30,19 @@ echo "Press any key to start..."
 read
 
 # Installing requirements
-run_command "sudo apt install -y $REQS &>/dev/null"
+sudo apt install -y $REQS
+check_command "Installation of requirements failed"
 
 # Installing and setting up fish shell for current user
 run_command "sudo echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_10/ /' | sudo tee /etc/apt/sources.list.d/shells:fish:release:3.list"
 run_command "curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:3/Debian_10/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/shells_fish_release_3.gpg > /dev/null"
-run_command "sudo apt update && sudo apt install fish"
+sudo apt update && sudo apt install fish
+check_command "Installation of fish failed"
 
 # Install WiFi firmware if wireless card is available
 # For this, contrib and non-free will be addedd to sources.list
-run_command "lspci | grep -i wireless && sudo sed -i 's/main/main contrib non-free/g' /etc/apt/sources.list"
-run_command "sudo apt update && sudo apt install firmware-iwlwifi"
-run_command "sudo modprobe -r iwlwifi ; sudo modprobe iwlwifi"
+run_command "lspci | grep -i wireless && sudo sed -i 's/main/main contrib non-free/g' /etc/apt/sources.list \
+&& sudo apt update && sudo apt install firmware-iwlwifi && sudo modprobe -r iwlwifi ; sudo modprobe iwlwifi"
 
 # Cloning dotfiles and copy them for current user
 run_command "git clone https://github.com/gh0o5t/dotfiles.git /tmp/dotfiles"
