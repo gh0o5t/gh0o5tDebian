@@ -38,6 +38,7 @@ run_command "sudo echo 'deb http://download.opensuse.org/repositories/shells:/fi
 run_command "curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:3/Debian_10/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/shells_fish_release_3.gpg > /dev/null"
 sudo apt update && sudo apt install -y fish
 check_command "Installation of fish failed"
+run_command "chsh -s `which fish`"
 
 # Install WiFi firmware if wireless card is available
 # For this, contrib and non-free will be addedd to sources.list
@@ -60,11 +61,11 @@ check_command "Installation of brave browser failed"
 
 # Vim plugins
 run_command "curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-vim -c PlugInstall -c qa
+#vim -c PlugInstall -c qa
 
 # Tmux plugins
 run_command "git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm"
-run_command "$HOME/.tmux/plugins/tpm/scripts/install_plugins.sh"
+#run_command "$HOME/.tmux/plugins/tpm/scripts/install_plugins.sh"
 
 # Cloning and installing Suckless
 run_command "mkdir $SUCKLESS_HOME"
