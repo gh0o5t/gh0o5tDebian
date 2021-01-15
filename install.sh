@@ -30,7 +30,7 @@ echo "Press any key to start..."
 read
 
 # Installing requirements
-sudo apt install -y $REQS
+sduo apt update && sudo apt install -y $REQS
 check_command "Installation of requirements failed"
 
 # Installing and setting up fish shell for current user
