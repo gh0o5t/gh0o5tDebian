@@ -38,7 +38,7 @@ run_command "sudo echo 'deb http://download.opensuse.org/repositories/shells:/fi
 run_command "curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:3/Debian_10/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/shells_fish_release_3.gpg > /dev/null"
 sudo apt update && sudo apt install -y fish
 check_command "Installation of fish failed"
-run_command "chsh -s `which fish`"
+run_command "sudo chsh -s `which fish`"
 
 # Install WiFi firmware if wireless card is available
 # For this, contrib and non-free will be addedd to sources.list
@@ -47,7 +47,7 @@ run_command "lspci | grep -i wireless && sudo sed -i 's/main/main contrib non-fr
 
 # Cloning dotfiles and copy them for current user
 run_command "git clone https://github.com/gh0o5t/dotfiles.git /tmp/dotfiles"
-run_command "cp -rf /tmp/dotfiles $HOME/"
+run_command "cp -rf /tmp/dotfiles $HOME/ && rm -rf /tmp/dotfiles"
 
 # Linking themes and icons because they don not work at the expected location
 ln -sf ~/.local/share/icons ~/.icons
