@@ -47,7 +47,7 @@ run_command "lspci | grep -i wireless && sudo sed -i 's/main/main contrib non-fr
 
 # Cloning dotfiles and copy them for current user
 run_command "git clone https://github.com/gh0o5t/dotfiles.git /tmp/dotfiles"
-run_command "cp -rf /tmp/dotfiles $HOME/ && rm -rf /tmp/dotfiles"
+run_command "cp -rf /tmp/dotfiles/* $HOME/ && rm -rf /tmp/dotfiles"
 
 # Linking themes and icons because they don not work at the expected location
 ln -sf ~/.local/share/icons ~/.icons
