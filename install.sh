@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 # Install script for automating Suckless software installation and basic rice on Debian.
-# For setting up monitors edit ~/.xinitrc 
 
 
 SUCKLESS_HOME=$HOME/Suckless
@@ -73,8 +72,3 @@ run_command "git clone https://github.com/gh0o5t/dmenu.git $SUCKLESS_HOME/dmenu 
 run_command "git clone https://github.com/gh0o5t/dwmblocks.git $SUCKLESS_HOME/dwmblocks && cd $SUCKLESS_HOME/dwmblocks && make && sudo make install"
 run_command "git clone https://github.com/gh0o5t/slock.git $SUCKLESS_HOME/slock && cd $SUCKLESS_HOME/slock && make && sudo make install"
 
-# Fish shell, Wifi Drivers, Wifi dwmblocks, update, xorg touchpad in user home maybe, why themes and icons dont work, check it before here.
-# create separate install repo
-# bluetooth check and program for bluetooth
-# brave
-#run prgos from dmenu
