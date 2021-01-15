@@ -20,8 +20,8 @@ check_command(){
 
 run_command() {
     echo -e "Executing: $1\n"
-    eval $1 &>/dev/null && sleep 3
-    check_command "$1 execution failed"
+    eval $1 &>/dev/null && sleep 2
+    check_command "$1: execution failed"
 }
 
 echo "During installation you will be prompted to provide your sudo pw."
@@ -30,15 +30,13 @@ echo "Press any key to start..."
 read
 
 # Installing requirements
-sudo apt update && sudo apt install -y $REQS
-check_command "Installation of requirements failed"
+run_command "sudo apt update && sudo apt install -y $REQS"
 
 # Installing and setting up fish shell for current user
 run_command "sudo echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_10/ /' | sudo tee /etc/apt/sources.list.d/shells:fish:release:3.list"
 run_command "curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:3/Debian_10/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/shells_fish_release_3.gpg > /dev/null"
-sudo apt update && sudo apt install -y fish
-check_command "Installation of fish failed"
-run_command "sudo chsh -s `which fish`"
+run_command "sudo apt update && sudo apt install -y fish"
+run_command "sudo usermod -s /usr/bin/fish"
 
 # Install WiFi firmware if wireless card is available
 # For this, contrib and non-free will be addedd to sources.list
@@ -56,8 +54,7 @@ ln -sf ~/.local/share/themes ~/.themes
 # Install Brave Browser
 run_command "curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -"
 run_command "echo 'deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main' | sudo tee /etc/apt/sources.list.d/brave-browser-release.list"
-sudo apt update && sudo apt install -y brave-browser
-check_command "Installation of brave browser failed"
+run_command "sudo apt update && sudo apt install -y brave-browser"
 
 # Vim plugins
 run_command "curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
