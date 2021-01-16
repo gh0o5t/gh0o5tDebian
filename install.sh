@@ -50,7 +50,7 @@ run_command "sudo usermod -s /usr/bin/fish $USER" \
 
 # Cloning dotfiles and copy them for current user
 run_command "git clone https://github.com/gh0o5t/dotfiles.git /tmp/dotfiles" \
-    "Cloning dorfiles repository"
+    "Cloning dotfiles repository"
 run_command "cp -rf /tmp/dotfiles/. $HOME/ && rm -rf /tmp/dotfiles" \
     "Installing dotfiles for $USER"
 
@@ -90,3 +90,4 @@ run_command "git clone https://github.com/gh0o5t/dwmblocks.git $SUCKLESS_HOME/dw
 run_command "git clone https://github.com/gh0o5t/slock.git $SUCKLESS_HOME/slock && cd $SUCKLESS_HOME/slock && make && sudo make install" \
     "Installing Slock"
 
+echo "Installation process has been finished"
