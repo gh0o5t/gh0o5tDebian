@@ -6,7 +6,7 @@
 SUCKLESS_HOME=$HOME/Suckless
 
 REQS="apt-transport-https curl gnupg git wget build-essential xorg xinput x11-xserver-utils libxcursor-dev libxrandr-dev libxi-dev libimlib2-dev libxft-dev libfontconfig1 libx11-6 libxinerama-dev xserver-xorg-dev \
-compton vim vim-gtk pcmanfm arandr lxappearance htop ranger tmux qt5ct feh firefox-esr pulseaudio pasystray pavucontrol pulsemixer pulseaudio-module-bluetooth  network-manager dunst locate zathura sxiv scrot neofetch blueman" 
+compton vim vim-gtk pcmanfm arandr lxappearance htop ranger tmux qt5ct feh pulseaudio pasystray pavucontrol pulsemixer pulseaudio-module-bluetooth network-manager dunst locate zathura sxiv scrot neofetch blueman" 
 
 check_command(){
     if [ $? -ne 0 ]; then
@@ -91,3 +91,8 @@ run_command "git clone https://github.com/gh0o5t/slock.git $SUCKLESS_HOME/slock 
     "Installing Slock"
 
 echo "Installation process has been finished"
+
+
+# todo 
+# enable NetworkManager and remove interface from interfaces
+
