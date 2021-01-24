@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+. ./functions.sh
+
 # Install script for automating Suckless software installation and basic rice on Debian.
 
 
@@ -7,22 +9,6 @@ SUCKLESS_HOME=$HOME/Suckless
 
 REQS="apt-transport-https curl gnupg git wget build-essential xorg xinput x11-xserver-utils libxcursor-dev libxrandr-dev libxi-dev libimlib2-dev libxft-dev libfontconfig1 libx11-6 libxinerama-dev xserver-xorg-dev \
 compton vim vim-gtk pcmanfm arandr lxappearance htop ranger tmux qt5ct feh pulseaudio pasystray pavucontrol pulsemixer pulseaudio-module-bluetooth network-manager dunst locate zathura sxiv scrot neofetch blueman" 
-
-check_command(){
-    if [ $? -ne 0 ]; then
-        echo "$1"
-        echo "Installation is not completed"  
-        echo "Press any key to close..."  
-        read
-        exit
-    fi
-}
-
-run_command() {
-    echo -e "$2\n"
-    eval $1 &>/dev/null && sleep 2
-    check_command "$2 failed"
-}
 
 echo "During installation you will be prompted to provide your sudo pw."
 echo "Dotfiles will be installed only for the user."
@@ -55,8 +41,8 @@ run_command "cp -rf /tmp/dotfiles/. $HOME/ && rm -rf /tmp/dotfiles" \
     "Installing dotfiles for $USER"
 
 # Linking themes and icons because they don not work at the expected location
-ln -sf ~/.local/share/icons ~/.icons
-ln -sf ~/.local/share/themes ~/.themes
+ln -sf $HOME/.local/share/icons $HOME/.icons
+ln -sf $HOME/.local/share/themes $HOME/.themes
 
 # Install Brave Browser
 run_command "curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -" \
