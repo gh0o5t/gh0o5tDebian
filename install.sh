@@ -105,19 +105,20 @@ run_command "git clone https://github.com/gh0o5t/slock.git $SUCKLESS_HOME/slock 
 
 # Installing docker and alacritty 
 if [ "$INSTALL_DOCKER" -eq 1 ]; then
-    run_command "mkdir -p $USER/Repos" \
+    REPOS_HOME="/home/$USER/Repos"
+    run_command "mkdir -p $REPOS_HOME" \
         "Creating Repos directory"
 
-    run_command "git clone https://github.com/gh0o5t/dockerInstallation.git $USER/Repos/dockerInstallation" \
+    run_command "git clone https://github.com/gh0o5t/dockerInstallation.git $REPOS_HOME/dockerInstallation" \
         "Downloading Docker installer"
 
-    run_command "cd $USER/Repos/dockerInstallation && bash $USER/Repos/dockerInstallation/install.sh" \
+    run_command "bash $REPOS_HOME/dockerInstallation/install.sh" \
         "Installing Docker and Docker Compose"
 
     if [ "$INSTALL_ALACRITTY" -eq 1 ]; then
-        run_command "git clone https://github.com/gh0o5t/dockerBuildAlacritty.git $USER/Repos/dockerBuildAlacritty" \
+        run_command "git clone https://github.com/gh0o5t/dockerBuildAlacritty.git $REPOS_HOME/dockerBuildAlacritty" \
             "Downloading Alacritty installer"
-        run_command "cd $USER/Repos/dockerBuildAlacritty && make && sudo make install" \ 
+        run_command "cd $REPOS_HOME/dockerBuildAlacritty && make && sudo make install" \ 
             "Installing Alacritty"
     fi
 fi
