@@ -98,6 +98,13 @@ git clone https://github.com/gh0o5t/dockerBuildAlacritty.git $REPOS_HOME/dockerB
 #run_command "git clone https://github.com/gh0o5t/dockerBuildAlacritty.git $REPOS_HOME/dockerBuildAlacritty" \
     #"Downloading Alacritty installer"
 cd $REPOS_HOME/dockerBuildAlacritty && sudo make install 
+
+run_command "sudo mkdir -p /usr/local/share/man/man1 && \
+    gzip -c alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null" \
+    "Adding man page for Alacritty"
+
+run_command "cp -f ./alacritty $(USER)/.local/bin/alacritty" "Adding terminfo for Alacritty"
+
 #run_command "cd $REPOS_HOME/dockerBuildAlacritty && sudo make && sudo make install" \ 
     #"Installing Alacritty"
 
