@@ -8,25 +8,6 @@
 
 SUCKLESS_HOME=$HOME/Suckless
 
-INSTALL_DOCKER=0
-INSTALL_ALACRITTY=0
-for arg in "$@"
-do
-    case $arg in
-        # For installing docker
-        "-d" )
-           INSTALL_DOCKER=1;;
-        # For installing alacritty
-        "-a" )
-           if [ "$INSTALL_DOCKER" -eq 1 ]; then
-               INSTALL_ALACRITTY=1
-           else
-               echo "Docker installation is requierd for alacritty installation"
-               exit
-           fi;;
-    esac
-done
-
 echo "During installation you will be prompted to provide your sudo pw."
 echo "Press any key to start..."
 read
@@ -104,26 +85,21 @@ run_command "git clone https://github.com/gh0o5t/slock.git $SUCKLESS_HOME/slock 
 
 
 # Installing docker and alacritty 
-if [ "$INSTALL_DOCKER" -eq 1 ]; then
-    REPOS_HOME="$HOME/Repos"
-    run_command "mkdir -p $REPOS_HOME" \
-        "Creating Repos directory"
+REPOS_HOME="$HOME/Repos"
+run_command "mkdir -p $REPOS_HOME" \
+    "Creating Repos directory"
 
-    run_command "git clone https://github.com/gh0o5t/dockerInstallation.git $REPOS_HOME/dockerInstallation" \
-        "Downloading Docker installer"
+run_command "git clone https://github.com/gh0o5t/dockerInstallation.git $REPOS_HOME/dockerInstallation" \
+    "Downloading Docker installer"
 
-    run_command "bash $REPOS_HOME/dockerInstallation/install.sh" \
-        "Installing Docker and Docker Compose"
+bash $REPOS_HOME/dockerInstallation/install.sh
 
-    if [ "$INSTALL_ALACRITTY" -eq 1 ]; then
-        git clone https://github.com/gh0o5t/dockerBuildAlacritty.git $REPOS_HOME/dockerBuildAlacritty
-        #run_command "git clone https://github.com/gh0o5t/dockerBuildAlacritty.git $REPOS_HOME/dockerBuildAlacritty" \
-            #"Downloading Alacritty installer"
-        cd $REPOS_HOME/dockerBuildAlacritty && sudo make && sudo make install 
-        #run_command "cd $REPOS_HOME/dockerBuildAlacritty && sudo make && sudo make install" \ 
-            #"Installing Alacritty"
-    fi
-fi
+git clone https://github.com/gh0o5t/dockerBuildAlacritty.git $REPOS_HOME/dockerBuildAlacritty
+#run_command "git clone https://github.com/gh0o5t/dockerBuildAlacritty.git $REPOS_HOME/dockerBuildAlacritty" \
+    #"Downloading Alacritty installer"
+cd $REPOS_HOME/dockerBuildAlacritty && sudo make && sudo make install 
+#run_command "cd $REPOS_HOME/dockerBuildAlacritty && sudo make && sudo make install" \ 
+    #"Installing Alacritty"
 
 
 echo "Installation has been finished"
