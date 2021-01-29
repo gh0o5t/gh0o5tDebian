@@ -118,7 +118,7 @@ if [ "$INSTALL_DOCKER" -eq 1 ]; then
     if [ "$INSTALL_ALACRITTY" -eq 1 ]; then
         run_command "git clone https://github.com/gh0o5t/dockerBuildAlacritty.git $REPOS_HOME/dockerBuildAlacritty" \
             "Downloading Alacritty installer"
-        run_command "cd $REPOS_HOME/dockerBuildAlacritty && make && sudo make install" \ 
+        run_command "cd $REPOS_HOME/dockerBuildAlacritty && sudo make && sudo make install" \ 
             "Installing Alacritty"
     fi
 fi
