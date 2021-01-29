@@ -8,6 +8,8 @@
 
 SUCKLESS_HOME=$HOME/Suckless
 
+INSTALL_DOCKER=0
+INSTALL_ALACRITTY=0
 for arg in "$@"
 do
     case $arg in
@@ -103,16 +105,29 @@ run_command "git clone https://github.com/gh0o5t/slock.git $SUCKLESS_HOME/slock 
 
 # Installing docker and alacritty 
 if [ "$INSTALL_DOCKER" -eq 1 ]; then
-    run_command "curl https://raw.githubusercontent.com/gh0o5t/dockerInstallation/main/install.sh | bash" \
+    run_command "mkdir -p $USER/Repos" \
+        "Creating Repos directory"
+
+    run_command "git clone https://github.com/gh0o5t/dockerInstallation.git $USER/Repos/dockerInstallation" \
         "Downloading Docker installer"
 
+    run_command "cd $USER/Repos/dockerInstallation && bash $USER/Repos/dockerInstallation/install.sh" \
+        "Installing Docker and Docker Compose"
+
     if [ "$INSTALL_ALACRITTY" -eq 1 ]; then
-        run_command "mkdir -p $USER/Repos && git clone https://github.com/gh0o5t/dockerBuildAlacritty.git" \
-            "Downloading Alacritty"
+        run_command "git clone https://github.com/gh0o5t/dockerBuildAlacritty.git $USER/Repos/dockerBuildAlacritty" \
+            "Downloading Alacritty installer"
         run_command "cd $USER/Repos/dockerBuildAlacritty && make && sudo make install" \ 
             "Installing Alacritty"
     fi
 fi
+
+
+echo "Installation has been finished"
+
+
+
+
 
 
 
