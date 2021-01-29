@@ -1,17 +1,31 @@
 #!/usr/bin/env bash
 
 . ./functions.sh
+. ./requirements
 
 # Install script for automating Suckless software installation and basic rice on Debian.
 
 
 SUCKLESS_HOME=$HOME/Suckless
 
-REQS="apt-transport-https curl gnupg git wget build-essential xorg xinput x11-xserver-utils libxcursor-dev libxrandr-dev libxi-dev libimlib2-dev libxft-dev libfontconfig1 libx11-6 libxinerama-dev xserver-xorg-dev \
-compton vim vim-gtk pcmanfm arandr lxappearance htop ranger tmux qt5ct feh pulseaudio pasystray pavucontrol pulsemixer pulseaudio-module-bluetooth network-manager dunst locate zathura sxiv scrot neofetch blueman" 
+for arg in "$@"
+do
+    case $arg in
+        # For installing docker
+        "-d" )
+           INSTALL_DOCKER=1;;
+        # For installing alacritty
+        "-a" )
+           if [ "$INSTALL_DOCKER" -eq 1 ]; then
+               INSTALL_ALACRITTY=1
+           else
+               echo "Docker installation is requierd for alacritty installation"
+               exit
+           fi;;
+    esac
+done
 
 echo "During installation you will be prompted to provide your sudo pw."
-echo "Dotfiles will be installed only for the user."
 echo "Press any key to start..."
 read
 
@@ -40,9 +54,18 @@ run_command "git clone https://github.com/gh0o5t/dotfiles.git /tmp/dotfiles" \
 run_command "cp -rf /tmp/dotfiles/. $HOME/ && rm -rf /tmp/dotfiles" \
     "Installing dotfiles for $USER"
 
-# Linking themes and icons because they don not work at the expected location
-ln -sf $HOME/.local/share/icons $HOME/.icons
-ln -sf $HOME/.local/share/themes $HOME/.themes
+
+# Installing Hack nerd fonts
+mkdir -p ~/.local/share/fonts
+run_command "cd ~/.local/share/fonts && wget 'https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Hack/Regular/complete/Hack%20Regular%20Nerd%20Font%20Complete.ttf'" \
+    "Installing Hack Regular Nerd Font"
+run_command "cd ~/.local/share/fonts && wget 'https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Hack/Italic/complete/Hack%20Italic%20Nerd%20Font%20Complete.ttf'" \
+    "Installing Hack Italic Nerd Font"
+run_command "cd ~/.local/share/fonts && wget 'https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Hack/Bold/complete/Hack%20Bold%20Nerd%20Font%20Complete.ttf'" \
+    "Installing Hack Bold Nerd Font"
+run_command "cd ~/.local/share/fonts && wget 'https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Hack/BoldItalic/complete/Hack%20Bold%20Italic%20Nerd%20Font%20Complete.ttf'" \
+    "Installing Hack BoldItalic Nerd Font"
+
 
 # Install Brave Browser
 run_command "curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -" \
@@ -77,6 +100,21 @@ run_command "git clone https://github.com/gh0o5t/slock.git $SUCKLESS_HOME/slock 
     "Installing Slock"
 
 echo "Installation process has been finished"
+
+
+# Installing docker and alacritty 
+if [ "$INSTALL_DOCKER" -eq 1 ]; then
+    run_command "curl https://raw.githubusercontent.com/gh0o5t/dockerInstallation/main/install.sh | bash" \
+        "Downloading and installing docker"
+
+    if [ "$INSTALL_ALACRITTY" -eq 1 ]; then
+        run_command "mkdir -p $USER/Repos && git clone https://github.com/gh0o5t/dockerBuildAlacritty.git" \
+            "Downloading Alacritty"
+        run_command "cd $USER/Repos/dockerBuildAlacritty && make && sudo make install" \ 
+            "Installing Alacritty"
+    fi
+fi
+
 
 
 # todo 

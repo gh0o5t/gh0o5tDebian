@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 
 . ./functions.sh
+. ./requirements
 
 SUCKLESS_HOME=$HOME/Suckless
+
+# Update system and install addational reqs if there is any
+run_command "sudo apt update && sudo apt install -y $REQS" \
+    "Updating system and installing new requirements"
 
 # Update dotfiles
 run_command "git clone https://github.com/gh0o5t/dotfiles.git /tmp/dotfiles" \
@@ -24,3 +29,5 @@ if [ -d "$SUCKLESS_HOME" ]; then
    run_command "cd $SUCKLESS_HOME/slock && git pull && make && sudo make install" \
        "Upgrading slock"
 fi
+
+# Alacritty update
