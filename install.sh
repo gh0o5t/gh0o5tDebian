@@ -99,13 +99,12 @@ run_command "git clone https://github.com/gh0o5t/dwmblocks.git $SUCKLESS_HOME/dw
 run_command "git clone https://github.com/gh0o5t/slock.git $SUCKLESS_HOME/slock && cd $SUCKLESS_HOME/slock && make && sudo make install" \
     "Installing Slock"
 
-echo "Installation process has been finished"
 
 
 # Installing docker and alacritty 
 if [ "$INSTALL_DOCKER" -eq 1 ]; then
     run_command "curl https://raw.githubusercontent.com/gh0o5t/dockerInstallation/main/install.sh | bash" \
-        "Downloading and installing docker"
+        "Downloading Docker installer"
 
     if [ "$INSTALL_ALACRITTY" -eq 1 ]; then
         run_command "mkdir -p $USER/Repos && git clone https://github.com/gh0o5t/dockerBuildAlacritty.git" \
