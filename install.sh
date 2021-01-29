@@ -53,7 +53,7 @@ run_command "sudo usermod -s /usr/bin/fish $USER" \
 # Cloning dotfiles and copy them for current user
 run_command "git clone https://github.com/gh0o5t/dotfiles.git /tmp/dotfiles" \
     "Cloning dotfiles repository"
-run_command "cp -rf /tmp/dotfiles/. $HOME/ && rm -rf /tmp/dotfiles" \
+run_command "cp -rf /tmp/dotfiles/. $HOME/ && rm -rf /tmp/dotfiles && rm -rf $HOME/.git" \
     "Installing dotfiles for $USER"
 
 
@@ -105,7 +105,7 @@ run_command "git clone https://github.com/gh0o5t/slock.git $SUCKLESS_HOME/slock 
 
 # Installing docker and alacritty 
 if [ "$INSTALL_DOCKER" -eq 1 ]; then
-    REPOS_HOME="/home/$USER/Repos"
+    REPOS_HOME="$HOME/Repos"
     run_command "mkdir -p $REPOS_HOME" \
         "Creating Repos directory"
 
@@ -116,10 +116,12 @@ if [ "$INSTALL_DOCKER" -eq 1 ]; then
         "Installing Docker and Docker Compose"
 
     if [ "$INSTALL_ALACRITTY" -eq 1 ]; then
-        run_command "git clone https://github.com/gh0o5t/dockerBuildAlacritty.git $REPOS_HOME/dockerBuildAlacritty" \
-            "Downloading Alacritty installer"
-        run_command "cd $REPOS_HOME/dockerBuildAlacritty && sudo make && sudo make install" \ 
-            "Installing Alacritty"
+        git clone https://github.com/gh0o5t/dockerBuildAlacritty.git $REPOS_HOME/dockerBuildAlacritty
+        #run_command "git clone https://github.com/gh0o5t/dockerBuildAlacritty.git $REPOS_HOME/dockerBuildAlacritty" \
+            #"Downloading Alacritty installer"
+        cd $REPOS_HOME/dockerBuildAlacritty && sudo make && sudo make install 
+        #run_command "cd $REPOS_HOME/dockerBuildAlacritty && sudo make && sudo make install" \ 
+            #"Installing Alacritty"
     fi
 fi
 
