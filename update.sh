@@ -31,3 +31,11 @@ if [ -d "$SUCKLESS_HOME" ]; then
 fi
 
 # Alacritty update
+ALACRITTY_HOME=$HOME/Repos/dockerBuildAlacritty/
+[ -d $ALACRITTY_HOME ] && cd $ALACRITTY_HOME && git pull && \
+   sudo make install
+   # Version change must be checked before installation
+
+[ ! -d $ALACRITTY_HOME ] && mkdir -p $HOME/Repos && \ 
+    git clone https://github.com/gh0o5t/dockerBuildAlacritty.git $ALACRITTY_HOME && \
+    cd $ALACRITTY_HOME && sudo make install
